@@ -1,66 +1,49 @@
-#include <stdio.h>
 #include <unistd.h>
 
-void	ft_putnbr(int nb)
+int ft_atoi(char *str)
 {
-	if (nb > 9)
-		ft_putnbr(nb / 10);
-	write(1, &"0123456789"[nb % 10], 1);
+    int i = 0;
+    int res = 0;
+    while (str[i] && str[i] >= '0' && str[i] <= '9')
+        res = (res * 10) + (str[i++] - '0');
+    return (res);
 }
 
-int	ft_atoi(char *str)
+void ft_print(int nb)
 {
-	int	i = 0;
-	int	result = 0;
-	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
-	{
-		result = result * 10 + str[i] - '0';
-		i++;
-	}
-	return (result);
+    if (nb > 9)
+        ft_print(nb / 10);
+    write(1, &"0123456789"[nb % 10], 1);
 }
-
-int ft_is_prime(int num)
-{
-	int i = 2;
-	if(num < 2)
-		return 0;
-	while (i < num)
-	{
-		if(num % i == 0)
-			return 0;
-		i++;
-	}
-	return 1;
-}
-
 
 int main(int ac, char **av)
 {
-    if(ac == 2)
+    if (ac == 2)
     {
-        int num = ft_atoi(av[1]);
-        int sum = 0;
-        while(num)
-        {
-            if(ft_is_prime(num))
-            	sum += num;
-            num--;
-        }
-        ft_putnbr(sum);
-    }
-	else
-		write(1, "0", 1);
-	write(1, "\n", 1);
-}
 
-/* int ft_is_prime(int num)
-{
-    if(num <= 1)
-        return(0);
-    else if(num % 2 == 0 && num > 2)
-        return(0);
-    else if(num % 3 == 0 && num > 3)
-        return(0);
-    return(1);
-} */
+        int toplam, i, num, sayac;
+        int sayi = ft_atoi(av[1]);
+        num = 1;
+        while (num <= sayi)
+        {
+            sayac = 0;
+            i = 2;
+            while (i <= num / 2)
+            {
+                if (num % i == 0)
+                {
+                    sayac++;
+                    break;
+                }
+                i++;
+            }
+            if (sayac == 0 && num != 1)
+               toplam += num;
+            num++;
+        }
+        ft_print(toplam);
+    }
+    else
+        write(1, "0", 1);
+    write(1, "\n", 1);
+}
